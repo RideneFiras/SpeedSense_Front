@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<!-- Mirrored from html.awaikenthemes.com/firevall/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 06 May 2025 17:52:24 GMT -->
+<head>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="Awaiken">
+	<!-- Page Title -->
+    <title>SpeedSense - Predicting QoS, Empowering Networks</title>
+	<!-- Favicon Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+	<!-- Google Fonts Css-->
+	<link rel="preconnect" href="../../fonts.googleapis.com/index.html">
+    <link rel="preconnect" href="../../fonts.gstatic.com/index.html" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<!-- Bootstrap Css -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<!-- SlickNav Css -->
+	<link href="css/slicknav.min.css" rel="stylesheet">
+	<!-- Swiper Css -->
+	<link rel="stylesheet" href="css/swiper-bundle.min.css">
+	<!-- Font Awesome Icon Css-->
+	<link href="css/all.min.css" rel="stylesheet" media="screen">
+	<!-- Animated Css -->
+	<link href="css/animate.css" rel="stylesheet">
+    <!-- Magnific Popup Core Css File -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<!-- Mouse Cursor Css File -->
+	<link rel="stylesheet" href="css/mousecursor.css">
+	<!-- Main Custom Css -->
+	<link href="css/custom.css" rel="stylesheet" media="screen">
+</head>
+<body>
+
+    <!-- Preloader Start -->
+	<div class="preloader">
+		<div class="loading-container">
+			<div class="loading"></div>
+			<div id="loading-icon"><img src="images/loader.svg" alt=""></div>
+		</div>
+	</div>
+	<!-- Preloader End -->
+
+    <!-- Header Start -->
+	<header class="main-header">
+		<div class="header-sticky">
+			<nav class="navbar navbar-expand-lg">
+				<div class="container">
+					<!-- Logo Start -->
+					<a class="navbar-brand" href="index.html">
+                        <img src="images/Speed/logospeed.png" alt="Logo" style="width: 200px; height: auto;">
+					</a>
+					<!-- Logo End -->
+
+					<!-- Main Menu Start -->
+					<div class="collapse navbar-collapse main-menu">
+                        <div class="nav-menu-wrapper">
+                            <ul class="navbar-nav mr-auto" id="menu">
+                                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>                                
+                                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                                                            </ul>
+                        </div>
+                        <a href="https://github.com/RideneFiras/QosMLOPS" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:white;text-decoration:none;font-size:14px;">
+                            <span class="iconify" data-icon="uil:github" style="font-size:20px;"></span>
+                            <span class="label">GitHub</span>
+                            <span class="iconify" data-icon="mdi:star" style="font-size:14px;"></span>
+                            <span id="stars">...</span>
+                          </a>
+                          <script>
+                            fetch('https://api.github.com/repos/RideneFiras/QosMLOPS')
+                              .then(r => r.json()).then(d => {
+                                const e = document.getElementById('stars');
+                                if (e) e.textContent = d.stargazers_count.toLocaleString();
+                              });
+                          </script>
+                          <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+                          
+                        <!-- Header Btn End -->
+					</div>
+					<!-- Main Menu End -->
+					<div class="navbar-toggle"></div>
+				</div>
+			</nav>
+			<div class="responsive-menu"></div>
+		</div>
+	</header>
+	<!-- Header End -->
+
+    <!-- Title Section Start -->
+  <!--ection End -->
+<br>
+<br><br>
+<!-- Upload Form Section Start - With increased top padding -->
+<div class="hero" style="background: linear-gradient(135deg, #1e1b2e, #141228); padding: 150px 0 80px; min-height: 50vh; display: flex; align-items: center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Upload CSV Start -->
+                <div class="upload-csv-box text-center shadow-lg rounded-lg p-5" style="background: #242235; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 40px rgba(99, 102, 241, 0.1); position: relative; overflow: hidden; transition: transform 0.3s ease;">
+                    <!-- Gradient border top -->
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6366f1, #8b5cf6, #d946ef);"></div>
+                    <br>
+                    
+                    <div class="upload-icon" style="font-size: 60px; margin-bottom: 30px; margin-top: 20px; background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; padding: 15px; border-radius: 50%; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2); background-color: rgba(255, 255, 255, 0.05);">
+                        <i class="fa-solid fa-satellite-dish"></i>
+                    </div>                    <h2 class="text-2xl font-semibold text-white mb-3">Network QoS Prediction</h2>
+                    <p class="text-gray-400 mb-4">Upload your network data to get accurate quality of service predictions powered by our advanced AI model.</p>
+                    
+                    <div class="file-drop-area" id="dropArea" style="border: 2px dashed #4f46e5; border-radius: 12px; padding: 30px 20px; background: rgba(99, 102, 241, 0.05); margin-bottom: 30px; transition: all 0.3s ease; cursor: pointer;">
+                        <p class="drop-message text-gray-400 mb-3">Drag and drop your CSV file here or</p>
+                        <div class="browse-btn" id="browseTrigger" style="display: inline-block; padding: 8px 15px; background: rgba(99, 102, 241, 0.2); color: #6366f1; border-radius: 8px; font-weight: 500; margin-bottom: 10px; transition: all 0.2s ease; cursor: pointer;">Browse Files</div>
+                        <p class="file-format text-gray-500" style="font-size: 13px;">Accepts CSV format only</p>
+                        <input type="file" id="csvFile" accept=".csv" onchange="handleFileUpload(event)" style="position: absolute; left: -9999px; opacity: 0;">
+                    </div>
+                    
+                    <div class="prediction-result" id="result" style="padding: 15px 20px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); color: #f3f4f6; font-weight: 500; font-size: 18px; margin-top: 10px; transition: all 0.3s ease; min-height: 60px; display: flex; align-items: center; justify-content: center;">
+                        <span class="result-icon mr-2">⏳</span>Awaiting input...
+                    </div>
+                    
+                    <div class="upload-steps d-flex justify-content-around mt-4 pt-4" style="border-top: 1px solid rgba(156, 163, 175, 0.1);">
+                        <div class="step text-center" style="max-width: 100px;">
+                            <div class="step-number d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 30px; height: 30px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-weight: 600;">1</div>
+                            <p class="step-text text-gray-400" style="font-size: 13px; line-height: 1.4;"> Upload file</p>
+                        </div>
+                        <div class="step text-center" style="max-width: 100px;">
+                            <div class="step-number d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 30px; height: 30px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-weight: 600;">2</div>
+                            <p class="step-text text-gray-400" style="font-size: 13px; line-height: 1.4;">Get prediction</p>
+                        </div>
+                        <div class="step text-center" style="max-width: 100px;">
+                            <div class="step-number d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 30px; height: 30px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-weight: 600;">3</div>
+                            <p class="step-text text-gray-400" style="font-size: 13px; line-height: 1.4;">Get explanation</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Upload CSV End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Upload Form Section End -->
+
+    <!-- Scrolling Ticker Section Start -->
+    <div class="our-scrolling-ticker footer-scrolling-ticker">
+        <!-- Scrolling Ticker Start -->
+        <div class="scrolling-ticker-box">
+            <div class="scrolling-content">
+                <span><a href="contact.html">Speed</a></span>
+                <span><a href="contact.html"> Sense</a></span>
+            </div>
+
+            <div class="scrolling-content">
+                <span><a href="contact.html">Speed </a></span>
+                <span><a href="contact.html">Sense</a></span>
+            </div>
+        </div>
+        <!-- Scrolling Ticker End -->
+    </div>
+    <!-- Scrolling Ticker Section End -->
+
+    <!-- Footer Start -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">                
+                <div class="col-lg-4 col-md-12">
+                    <!-- About Footer Start -->
+                    <div class="about-footer">
+                        <!-- Footer Logo Start -->
+                        <div class="footer-logo">
+                            <img src="images/Speed/logospeed1.png" alt="">
+                        </div>
+                        <!-- Footer Logo End -->
+
+                        <!-- About Footer Content Start -->
+                        <div class="about-footer-content">
+                            <p>Your trusted partner in telecommunication, offering cutting-edge solutions to defend against evolving threats.</p>
+                        </div>           
+                        <!-- About Footer Content End -->
+                         
+                        <!-- Footer Social Link Start -->
+                        <div class="footer-social-links">
+                            <ul>
+                                <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- Footer Social Link End -->
+                    </div>
+                    <!-- About Footer End -->
+                </div>
+                
+                <div class="col-lg-2 col-md-3">
+                    <!-- Footer Links Start -->
+                    <div class="footer-links">
+                        <h3>quick links</h3>
+                        <ul>
+                            <li><a href="index-2.html">home</a></li>
+                            <li><a href="about.html">about us</a></li>
+                            <li><a href="services.html">services</a></li>
+                            <li><a href="case-study.html">Case Study</a></li>
+                        </ul>
+                    </div>
+                    <!-- Footer Links End -->
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <!-- Footer Links Start -->
+                    <div class="footer-links">
+                        <h3>Our Services</h3>
+                        <ul>
+                            <li><a href="service-single.html"></a></li>
+                            <li><a href="service-single.html"></a></li>
+                            <li><a href="service-single.html"></a></li>
+                            <li><a href="service-single.html"></a></li>
+                        </ul>
+                    </div>
+                    <!-- Footer Links End -->
+                </div>
+
+                <div class="col-lg-3 col-md-5">
+                    <!-- Footer Links Start -->
+                    <div class="foter-links">
+                        <h3>Contact Information</h3>
+                        <!-- Footer Contact Item Start -->
+                        <div class="footer-contact-item">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="footer-contact-content">
+                                <p>Esprit, Ghazela 2083</p>
+                            </div>
+                        </div>
+                        <!-- Footer Contact Item End -->
+
+                        <!-- Footer Contact Item Start -->
+                        <div class="footer-contact-item">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="footer-contact-content">
+                                <p><a href="tel:+91123456789">+21600000000</a></p>
+                            </div>
+                        </div>
+                        <!-- Footer Contact Item End -->
+                        
+                        <!-- Footer Contact Item Start -->
+                        <div class="footer-contact-item">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div class="footer-contact-content">
+                                <p><a href="mailto:info@domainname.com">Speedsense@esprit.tn</a></p>
+                            </div>
+                        </div>
+                        <!-- Footer Contact Item End -->                       
+                    </div>
+                    <!-- Footer Links End -->
+                </div>
+
+                <div class="col-lg-12">
+                    <!-- Footer Copyright Start -->
+                    <div class="footer-copyright-text">
+                        <p>Copyright © 2025 All Rights Reserved.</p>
+                    </div>
+                    <!-- Footer Copyright End -->
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- Jquery Library File -->
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap js file -->
+    <script src="js/bootstrap.min.js"></script>
+        <!-- Main Custom js file -->
+    <script src="js/function.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+
+    <script>
+        // File drop functionality
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('csvFile');
+        const browseTrigger = document.getElementById('browseTrigger');
+        const resultElement = document.getElementById('result');
+        
+        // Trigger file input when clicking the browse button
+        browseTrigger.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        // Handle drag and drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.classList.add('active');
+            dropArea.style.background = "rgba(139, 92, 246, 0.1)";
+            dropArea.style.borderColor = "#8b5cf6";
+        }
+        
+        function unhighlight() {
+            dropArea.classList.remove('active');
+            dropArea.style.background = "rgba(99, 102, 241, 0.05)";
+            dropArea.style.borderColor = "#4f46e5";
+        }
+        
+        // Handle dropped files
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length) {
+                fileInput.files = files;
+                handleFileUpload({ target: fileInput });
+            }
+        }
+        
+        // Modify your existing handleFileUpload function
+        async function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Update UI to show loading
+            resultElement.innerHTML = '<span class="result-icon mr-2">⚙️</span>Processing data...';
+            
+            const reader = new FileReader();
+            reader.onload = async function (e) {
+                const csvData = e.target.result;
+                const jsonData = csvToJson(csvData);
+                
+                if (jsonData.length === 0) {
+                    resultElement.innerHTML = '<span class="result-icon mr-2">❌</span>Invalid CSV file or format.';
+                    return;
+                }
+                
+                try {
+                    const response = await sendToFastAPI(jsonData[0]); // Send the first row for prediction
+                    console.log("Received response:", response);
+                    
+                    resultElement.innerHTML = `<span class="result-icon mr-2">✅</span>Prediction: ${response.prediction_mbps} Mbit/s`;
+                } catch (error) {
+                    resultElement.innerHTML = '<span class="result-icon mr-2">❌</span>Failed to get prediction.';
+                    console.error("Error:", error);
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        function csvToJson(csv) {
+            const lines = csv.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+            const headers = lines[0].split(",");
+            const jsonData = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(",");
+                if (values.length !== headers.length) continue; // Skip invalid rows
+                
+                let obj = {};
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j].trim()] = isNaN(values[j]) ? values[j].trim() : parseFloat(values[j]);
+                }
+                jsonData.push(obj);
+            }
+            return jsonData;
+        }
+        
+        async function sendToFastAPI(data) {
+            try {
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.statusText}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error("Error:", error);
+                throw error;
+            }
+        }
+    </script>
+</body>
+
+<!-- Mirrored from html.awaikenthemes.com/firevall/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 06 May 2025 17:54:01 GMT -->
+</html>

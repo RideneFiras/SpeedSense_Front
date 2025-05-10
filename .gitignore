@@ -1,0 +1,30 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# VSCode settings (optional)
+.vscode/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Jupyter and IPython
+.ipynb_checkpoints/
+*.ipynb
+
+# Frontend build (if any)
+frontend/dist/
+frontend/node_modules/
+
+# Docker
+*.pid
