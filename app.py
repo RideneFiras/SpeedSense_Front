@@ -38,6 +38,10 @@ async def serve_index():
 async def serve_predict_page():
     return FileResponse("frontend/predict.html")
 
+@app.get("/about")
+async def serve_predict_page():
+    return FileResponse("frontend/aboutus.html")    
+
 # ✅ Prediction input model
 class RawQoSInput(RootModel[dict]):
     pass
