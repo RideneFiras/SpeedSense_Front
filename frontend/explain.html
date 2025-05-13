@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Throughput Insight</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111827;
+      color: #e5e7eb;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #6366f1 0%, #2563eb 100%);
+    }
+    
+    .card-shadow {
+      box-shadow: 0 10px 25px -5px rgba(30, 64, 175, 0.3), 0 8px 10px -6px rgba(30, 64, 175, 0.3);
+    }
+    
+    .pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .slide-in {
+      animation: slideIn 0.5s ease-out forwards;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Loader animation */
+    .loader {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+    .loader div {
+      position: absolute;
+      top: 33px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #3b82f6;
+      animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+    .loader div:nth-child(1) {
+      left: 8px;
+      animation: loader1 0.6s infinite;
+    }
+    .loader div:nth-child(2) {
+      left: 8px;
+      animation: loader2 0.6s infinite;
+    }
+    .loader div:nth-child(3) {
+      left: 32px;
+      animation: loader2 0.6s infinite;
+    }
+    .loader div:nth-child(4) {
+      left: 56px;
+      animation: loader3 0.6s infinite;
+    }
+    @keyframes loader1 {
+      0% {
+        transform: scale(0);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    @keyframes loader3 {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(0);
+      }
+    }
+    @keyframes loader2 {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(24px, 0);
+      }
+    }
+
+    /* Network animation */
+    .network-animate {
+      animation: networkPulse 3s infinite;
+    }
+    @keyframes networkPulse {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.95);
+        opacity: 0.5;
+      }
+    }
+    
+    /* Markdown styling for dark mode */
+    .prose h1, .prose h2, .prose h3 {
+      color: #93c5fd;
+      margin-top: 1.5em;
+      margin-bottom: 0.75em;
+      font-weight: 600;
+    }
+    
+    .prose p {
+      margin-bottom: 1em;
+      line-height: 1.7;
+      color: #e5e7eb;
+    }
+    
+    .prose ul, .prose ol {
+      margin-left: 1.5em;
+      margin-bottom: 1em;
+      color: #e5e7eb;
+    }
+    
+    .prose code {
+      background-color: #1f2937;
+      padding: 0.2em 0.4em;
+      border-radius: 0.25em;
+      font-size: 0.9em;
+      color: #93c5fd;
+    }
+    
+    .prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1em;
+    }
+    
+    .prose th, .prose td {
+      border: 1px solid #374151;
+      padding: 0.5em 0.75em;
+    }
+    
+    .prose th {
+      background-color: #1f2937;
+      color: #e5e7eb;
+    }
+    
+    @media print {
+      button {
+        display: none;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none;
+      }
+      .print-only {
+        display: block;
+      }
+      .card-shadow {
+        box-shadow: none;
+      }
+      .prose p, .prose ul, .prose ol, .prose h1, .prose h2, .prose h3 {
+        color: black !important;
+      }
+      .prose code {
+        background-color: #f3f4f6 !important;
+        color: #1e40af !important;
+      }
+      .prose th {
+        background-color: #f9fafb !important;
+        color: black !important;
+      }
+      .prose th, .prose td {
+        border: 1px solid #e5e7eb !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+  <!-- Main Container -->
+  <div class="max-w-3xl mx-auto">
+    <!-- Header -->
+    <div class="gradient-bg rounded-t-xl p-6 text-white text-center">
+      <div class="flex items-center justify-center mb-2">
+        <i class="fas fa-wifi text-4xl mr-3"></i>
+        <h1 class="text-3xl font-bold">QoS Insight</h1>
+      </div>
+      <p class="text-blue-100 mt-2 font-light text-lg">Advanced network performance analysis powered by SpeedSense</p>
+    </div>
+    
+    <!-- Content Card -->
+    <div class="bg-gray-900 rounded-b-xl card-shadow p-8">
+      <!-- Loading State -->
+      <div id="loading" class="flex flex-col items-center justify-center py-12 text-center">
+        <div class="mb-8">
+          <div class="network-animate mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v1"></path>
+              <path d="M12 21v1"></path>
+              <path d="M4.93 4.93l.7.7"></path>
+              <path d="M18.37 18.37l.7.7"></path>
+              <path d="M2 12h1"></path>
+              <path d="M21 12h1"></path>
+              <path d="M6 16a4 4 0 0 1-.5-7.7"></path>
+              <path d="M18 8a4 4 0 0 1 0 8"></path>
+              <path d="M4.93 19.07l.7-.7"></path>
+              <path d="M18.37 5.63l.7-.7"></path>
+              <path d="M16 16a4 4 0 0 1-6.8-4"></path>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="loader mb-6"><div></div><div></div><div></div><div></div></div>
+        
+        <h3 class="text-xl font-medium text-blue-300 mb-2">Analyzing Your Network</h3>
+        <p class="text-gray-400 max-w-md mx-auto">Processing metrics and generating insights. This may take a moment depending on network complexity.</p>
+      </div>
+
+      <!-- Results Container -->
+      <div id="explanation-container" class="hidden slide-in">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-700">
+          <h2 class="text-xl font-semibold text-blue-300">Network Performance Analysis</h2>
+          <span class="bg-blue-900 text-blue-300 text-xs font-medium px-2.5 py-1 rounded flex items-center">
+            <i class="fas fa-clock mr-1"></i> Just now
+          </span>
+        </div>
+        
+        <!-- Insight Content -->
+        <div class="bg-gray-800 rounded-lg p-4">
+          <div id="gpt-output" class="prose prose-sm max-w-none"></div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="mt-8 flex justify-between items-center">
+          <button id="copy-btn" onclick="copyToClipboard()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium py-2 px-4 rounded-lg flex items-center transition-colors">
+            <i class="far fa-copy mr-2"></i> Copy
+          </button>
+          
+          <button id="print-btn" onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center transition-colors">
+            <i class="fas fa-file-pdf mr-2"></i> Save as PDF
+          </button>
+        </div>
+      </div>
+      
+      <!-- Error State -->
+      <div id="error-container" class="hidden text-center py-8">
+        <div class="w-16 h-16 bg-red-900 text-red-300 rounded-full mx-auto flex items-center justify-center mb-4">
+          <i class="fas fa-exclamation-triangle text-xl"></i>
+        </div>
+        <h3 id="error-message" class="text-lg font-medium text-red-300 mb-2"></h3>
+        <p class="text-gray-400 mb-6">Please try again or contact support if the issue persists.</p>
+        <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+          <i class="fas fa-redo mr-2"></i> Try Again
+        </button>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="mt-6 text-center text-gray-500 text-sm no-print">
+      <p>Powered by SpeedSense</p>
+    </div>
+  </div>
+
+  <script>
+    function showError(message) {
+      document.getElementById("loading").classList.add("hidden");
+      document.getElementById("error-container").classList.remove("hidden");
+      document.getElementById("error-message").innerText = message || "An error occurred";
+    }
+    
+    function copyToClipboard() {
+      const insightText = document.getElementById("gpt-output").innerText;
+      navigator.clipboard.writeText(insightText)
+        .then(() => {
+          const copyBtn = document.getElementById("copy-btn");
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+
+    async function fetchExplanationViaChat() {
+      const inputDataStr = localStorage.getItem("lastInputData");
+      if (!inputDataStr) {
+        showError("No input data found");
+        return;
+      }
+
+      const inputHash = btoa(inputDataStr); // Base64 hash for caching
+      const cachedHash = localStorage.getItem("lastHash");
+      const cachedInsight = localStorage.getItem("lastInsight");
+
+      // ✅ Use cached insight if input hasn't changed
+      if (inputHash === cachedHash && cachedInsight) {
+        document.getElementById("gpt-output").innerHTML = marked.parse(cachedInsight);
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("explanation-container").classList.remove("hidden");
+        return;
+      }
+
+      try {
+        const inputData = JSON.parse(inputDataStr);
+
+        // Step 1: Get SHAP values from /explain
+        const explainRes = await fetch("/explain", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(inputData)
+        });
+
+        if (!explainRes.ok) throw new Error("Failed to fetch SHAP data");
+        const explainData = await explainRes.json();
+
+        // Step 2: Send SHAP to /chat
+        const chatRes = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            throughput_mbps: explainData.throughput_mbps,
+            explanation: explainData.explanation,
+            features: explainData.features
+          })
+        });
+
+        if (!chatRes.ok) throw new Error("Failed to generate AI insight");
+        const chatData = await chatRes.json();
+
+        // ✅ Cache and render
+        localStorage.setItem("lastHash", inputHash);
+        localStorage.setItem("lastInsight", chatData.insight);
+
+        document.getElementById("gpt-output").innerHTML = marked.parse(chatData.insight);
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("explanation-container").classList.remove("hidden");
+
+      } catch (err) {
+        showError(err.message);
+        console.error(err);
+      }
+    }
+
+    window.onload = fetchExplanationViaChat;
+  </script>
+</body>
+</html>

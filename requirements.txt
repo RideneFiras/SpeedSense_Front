@@ -5,3 +5,6 @@ joblib
 scikit-learn  
 xgboost
 pandas
+shap
+openai
+dotenv

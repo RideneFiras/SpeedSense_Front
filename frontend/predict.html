@@ -11,7 +11,7 @@
 	<meta name="keywords" content="">
 	<meta name="author" content="Awaiken">
 	<!-- Page Title -->
-    <title>SpeedSense - Predicting QoS, Empowering Networks</title>
+    <title>SpeedSense - Predicting Throughput, Empowering Networks</title>
 	<!-- Favicon Icon -->
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 	<!-- Google Fonts Css-->
@@ -110,8 +110,8 @@
                     
                     <div class="upload-icon" style="font-size: 60px; margin-bottom: 30px; margin-top: 20px; background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; padding: 15px; border-radius: 50%; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2); background-color: rgba(255, 255, 255, 0.05);">
                         <i class="fa-solid fa-satellite-dish"></i>
-                    </div>                    <h2 class="text-2xl font-semibold text-white mb-3">Network QoS Prediction</h2>
-                    <p class="text-gray-400 mb-4">Upload your network data to get accurate quality of service predictions powered by our advanced AI model.</p>
+                    </div>                    <h2 class="text-2xl font-semibold text-white mb-3">Network Throughput Prediction</h2>
+                    <p class="text-gray-400 mb-4">Upload your network data to get accurate quality of service predictions powered by our advanced ML model.</p>
                     
                     <div class="file-drop-area" id="dropArea" style="border: 2px dashed #4f46e5; border-radius: 12px; padding: 30px 20px; background: rgba(99, 102, 241, 0.05); margin-bottom: 30px; transition: all 0.3s ease; cursor: pointer;">
                         <p class="drop-message text-gray-400 mb-3">Drag and drop your CSV file here or</p>
@@ -123,7 +123,13 @@
                     <div class="prediction-result" id="result" style="padding: 15px 20px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); color: #f3f4f6; font-weight: 500; font-size: 18px; margin-top: 10px; transition: all 0.3s ease; min-height: 60px; display: flex; align-items: center; justify-content: center;">
                         <span class="result-icon mr-2">⏳</span>Awaiting input...
                     </div>
-                    
+
+                    <!-- Modified Explain Button - Initially hidden -->
+                    <button id="explainBtn" onclick="handleExplain()" style="display: none; margin-top: 20px; padding: 10px 24px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; cursor: pointer; font-size: 16px;">
+                        <i class="fa-solid fa-lightbulb" style="margin-right: 10px;"></i>
+                        Explain Prediction
+                    </button>
+
                     <div class="upload-steps d-flex justify-content-around mt-4 pt-4" style="border-top: 1px solid rgba(156, 163, 175, 0.1);">
                         <div class="step text-center" style="max-width: 100px;">
                             <div class="step-number d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 30px; height: 30px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-weight: 600;">1</div>
@@ -290,6 +296,8 @@
         const fileInput = document.getElementById('csvFile');
         const browseTrigger = document.getElementById('browseTrigger');
         const resultElement = document.getElementById('result');
+        const explainBtn = document.getElementById('explainBtn');
+        let lastInputData = null;
         
         // Trigger file input when clicking the browse button
         browseTrigger.addEventListener('click', () => {
@@ -339,10 +347,24 @@
             }
         }
         
+        // Add hover effect to explain button
+        explainBtn.addEventListener('mouseover', () => {
+            explainBtn.style.background = "linear-gradient(135deg, #5253c7, #7b4fd3)";
+            explainBtn.style.boxShadow = "0 4px 12px rgba(99, 102, 241, 0.3)";
+        });
+        
+        explainBtn.addEventListener('mouseout', () => {
+            explainBtn.style.background = "linear-gradient(135deg, #6366f1, #8b5cf6)";
+            explainBtn.style.boxShadow = "none";
+        });
+        
         // Modify your existing handleFileUpload function
         async function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
+            
+            // Hide explain button when uploading a new file
+            explainBtn.style.display = 'none';
             
             // Update UI to show loading
             resultElement.innerHTML = '<span class="result-icon mr-2">⚙️</span>Processing data...';
@@ -356,12 +378,23 @@
                     resultElement.innerHTML = '<span class="result-icon mr-2">❌</span>Invalid CSV file or format.';
                     return;
                 }
-                
+                lastInputData = jsonData[0];
+                console.log("🔁 Saved input for SHAP explanation:", lastInputData);
                 try {
                     const response = await sendToFastAPI(jsonData[0]); // Send the first row for prediction
                     console.log("Received response:", response);
                     
                     resultElement.innerHTML = `<span class="result-icon mr-2">✅</span>Prediction: ${response.prediction_mbps} Mbit/s`;
+                    
+                    // Show the explain button after successful prediction
+                    explainBtn.style.display = 'inline-block';
+                    
+                    // Add a subtle animation to draw attention to the explain button
+                    explainBtn.style.animation = 'pulse 1.5s ease-in-out';
+                    setTimeout(() => {
+                        explainBtn.style.animation = '';
+                    }, 1500);
+                    
                 } catch (error) {
                     resultElement.innerHTML = '<span class="result-icon mr-2">❌</span>Failed to get prediction.';
                     console.error("Error:", error);
@@ -407,6 +440,68 @@
                 throw error;
             }
         }
+        
+        function handleExplain() {
+            if (!lastInputData) {
+                showNotification('No input data available for explanation.', 'error');
+                return;
+            }
+
+            localStorage.setItem("lastInputData", JSON.stringify(lastInputData));
+
+            const popup = window.open(
+                "/xai",
+                "ExplainPopup",
+                "width=800,height=700,scrollbars=yes,resizable=yes"
+            );
+
+            if (!popup || popup.closed || typeof popup.closed === "undefined") {
+                showNotification('Popup blocked! Please allow popups for this website.', 'error');
+            }
+        }
+        
+        // Add this function to show notifications
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '12px 20px';
+            notification.style.borderRadius = '8px';
+            notification.style.zIndex = '9999';
+            notification.style.fontSize = '14px';
+            notification.style.fontWeight = '500';
+            notification.style.transition = 'all 0.3s ease';
+            
+            if (type === 'error') {
+                notification.style.background = 'rgba(239, 68, 68, 0.9)';
+                notification.style.color = 'white';
+            } else {
+                notification.style.background = 'rgba(16, 185, 129, 0.9)';
+                notification.style.color = 'white';
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Add a subtle pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 

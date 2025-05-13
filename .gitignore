@@ -28,3 +28,7 @@ frontend/node_modules/
 
 # Docker
 *.pid
+
+
+
+.env
