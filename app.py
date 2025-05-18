@@ -8,6 +8,7 @@ import pandas as pd
 import shap
 from services.preprocessing import preprocess_single_row
 from services.chatgpt_service import generate_qos_insight
+from services.faq_search import find_best_faq_answer
 # ✅ Init
 app = FastAPI()
 
@@ -29,12 +30,15 @@ app.mount("/css", StaticFiles(directory="frontend/css"), name="css")
 app.mount("/js", StaticFiles(directory="frontend/js"), name="js")
 app.mount("/images", StaticFiles(directory="frontend/images"), name="images")
 app.mount("/webfonts", StaticFiles(directory="frontend/webfonts"), name="webfonts")
+app.mount("/components", StaticFiles(directory="frontend/components"), name="components")
 
 # ✅ Serve pages
 @app.get("/")
 async def serve_index():
     return FileResponse("frontend/index.html")
-
+@app.get("/csv")
+async def serve_index():
+    return FileResponse("frontend/csv.html")
 @app.get("/xai")
 async def serve_index():
     return FileResponse("frontend/explain.html")
@@ -47,6 +51,9 @@ async def serve_predict_page():
 async def serve_predict_page():
     return FileResponse("frontend/aboutus.html")    
 
+@app.get("/chatbot")
+async def serve_index():
+    return FileResponse("frontend/components/chatbot.html")
 # ✅ Prediction input model
 class RawQoSInput(RootModel[dict]):
     pass
@@ -86,3 +93,13 @@ async def chat_explanation(data: dict):
     )
     print("✅ Insight generated:\n", insight)
     return {"insight": insight}
+    
+@app.post("/faq-chat")
+async def faq_chat(request: dict):
+    user_question = request.get("question", "")
+    result = find_best_faq_answer(user_question)
+
+    if result["answer"] is None:
+        return {"response": "❌ Sorry, I couldn't find an answer. Try rephrasing?"}
+    
+    return {"response": result["answer"]}

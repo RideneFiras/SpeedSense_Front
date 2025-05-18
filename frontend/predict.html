@@ -119,7 +119,13 @@
                         <p class="file-format text-gray-500" style="font-size: 13px;">Accepts CSV format only</p>
                         <input type="file" id="csvFile" accept=".csv" onchange="handleFileUpload(event)" style="position: absolute; left: -9999px; opacity: 0;">
                     </div>
-                    
+                    <div class="alternative-input" style="margin-top: 15px; text-align: center;">
+                        <p class="text-gray-400 mb-2">Or use our manual input form</p>
+                        <button id="manualInputBtn" onclick="openManualInputForm()" style="padding: 8px 15px; background: rgba(99, 102, 241, 0.2); color: #6366f1; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">
+                          <i class="fa-solid fa-keyboard" style="margin-right: 5px;"></i>Enter Data Manually
+                        </button>
+                      </div>
+                      
                     <div class="prediction-result" id="result" style="padding: 15px 20px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); color: #f3f4f6; font-weight: 500; font-size: 18px; margin-top: 10px; transition: all 0.3s ease; min-height: 60px; display: flex; align-items: center; justify-content: center;">
                         <span class="result-icon mr-2">⏳</span>Awaiting input...
                     </div>
@@ -289,7 +295,20 @@
         <!-- Main Custom js file -->
     <script src="js/function.js"></script>
     <script src="js/jquery-3.7.1.min.js"></script>
-
+    <script>
+        function openManualInputForm() {
+          const popup = window.open(
+            "/csv",
+            "ManualInputForm",
+            "width=800,height=700,scrollbars=yes,resizable=yes"
+          );
+          
+          if (!popup || popup.closed || typeof popup.closed === "undefined") {
+            showNotification('Popup blocked! Please allow popups for this website.', 'error');
+          }
+        }
+      </script>
+      
     <script>
         // File drop functionality
         const dropArea = document.getElementById('dropArea');

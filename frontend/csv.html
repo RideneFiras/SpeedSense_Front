@@ -1,0 +1,640 @@
+
+
+  <!-- STEP 3: Create a new route in your backend for /manual-input -->
+  <!-- This will be the content of your manual-input.html file -->
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Data Input - SpeedSense</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      body {
+        background: linear-gradient(135deg, #1e1b2e, #141228);
+        color: #f3f4f6;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+        background: #242235;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .gradient-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #6366f1, #8b5cf6, #d946ef);
+      }
+      
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: white;
+        font-size: 24px;
+      }
+      
+      p.description {
+        text-align: center;
+        color: #a5a9b8;
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+      
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .form-section {
+        background: rgba(99, 102, 241, 0.05);
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+      }
+      
+      .form-section h3 {
+        color: #8b5cf6;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+      
+      .form-group {
+        margin-bottom: 15px;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 13px;
+        color: #d1d5db;
+      }
+      
+      input, select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        background: rgba(30, 27, 46, 0.8);
+        color: white;
+        font-size: 14px;
+      }
+      
+      input:focus, select:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+      }
+      
+      .help-tip {
+        color: #a5a9b8;
+        font-size: 12px;
+        margin-top: 3px;
+      }
+      
+      .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
+      }
+      
+      button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 15px;
+      }
+      
+      button.primary {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+      }
+      
+      button.secondary {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+      
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+      }
+      
+      button.primary:hover {
+        background: linear-gradient(135deg, #5253c7, #7b4fd3);
+      }
+      
+      button.secondary:hover {
+        background: rgba(99, 102, 241, 0.2);
+      }
+      
+      .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      .notification.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .notification.success {
+        background: rgba(16, 185, 129, 0.9);
+        color: white;
+      }
+      
+      .notification.error {
+        background: rgba(239, 68, 68, 0.9);
+        color: white;
+      }
+      
+      .loader {
+        border: 3px solid rgba(99, 102, 241, 0.3);
+        border-radius: 50%;
+        border-top: 3px solid #6366f1;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="gradient-top"></div>
+      <h2>Network Data Input Form</h2>
+      <p class="description">Enter your network information to generate a CSV file for throughput prediction</p>
+      
+      <form id="networkDataForm">
+        <!-- Cell Information Section -->
+        <div class="form-section">
+          <h3>Primary Cell Information</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="PCell_RSRP_max">RSRP Max (dBm)</label>
+              <input type="number" id="PCell_RSRP_max" name="PCell_RSRP_max" value="-86.55" step="0.01" required>
+              <div class="help-tip">Signal strength (-140 to -40)</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_RSRQ_max">RSRQ Max (dB)</label>
+              <input type="number" id="PCell_RSRQ_max" name="PCell_RSRQ_max" value="-11.21" step="0.01" required>
+              <div class="help-tip">Signal quality (-20 to -3)</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_RSSI_max">RSSI Max (dBm)</label>
+              <input type="number" id="PCell_RSSI_max" name="PCell_RSSI_max" value="-55.01" step="0.01" required>
+              <div class="help-tip">Signal strength indicator</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_SNR_max">SNR Max (dB)</label>
+              <input type="number" id="PCell_SNR_max" name="PCell_SNR_max" value="16.90" step="0.01" required>
+              <div class="help-tip">Signal-to-noise ratio</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_Downlink_Num_RBs">Downlink RBs</label>
+              <input type="number" id="PCell_Downlink_Num_RBs" name="PCell_Downlink_Num_RBs" value="30634" required>
+              <div class="help-tip">Resource blocks</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_Downlink_Average_MCS">DL Avg MCS</label>
+              <input type="number" id="PCell_Downlink_Average_MCS" name="PCell_Downlink_Average_MCS" value="24" required>
+              <div class="help-tip">Modulation coding scheme</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_Downlink_bandwidth_MHz">DL Bandwidth (MHz)</label>
+              <input type="number" id="PCell_Downlink_bandwidth_MHz" name="PCell_Downlink_bandwidth_MHz" value="20" required>
+              <div class="help-tip">5, 10, 15, 20 MHz</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_Cell_Identity">Cell Identity</label>
+              <input type="number" id="PCell_Cell_Identity" name="PCell_Cell_Identity" value="2568970" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="PCell_freq_MHz">Frequency (MHz)</label>
+              <input type="number" id="PCell_freq_MHz" name="PCell_freq_MHz" value="1800" required>
+              <div class="help-tip">e.g., 700, 800, 1800, 2600</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Secondary Cell Information Section -->
+        <div class="form-section">
+          <h3>Secondary Cell Information</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="SCell_RSRP_max">RSRP Max (dBm)</label>
+              <input type="number" id="SCell_RSRP_max" name="SCell_RSRP_max" value="-93.94" step="0.01" required>
+              <div class="help-tip">Signal strength (-140 to -40)</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_RSRQ_max">RSRQ Max (dB)</label>
+              <input type="number" id="SCell_RSRQ_max" name="SCell_RSRQ_max" value="-12.17" step="0.01" required>
+              <div class="help-tip">Signal quality (-20 to -3)</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_RSSI_max">RSSI Max (dBm)</label>
+              <input type="number" id="SCell_RSSI_max" name="SCell_RSSI_max" value="-61.71" step="0.01" required>
+              <div class="help-tip">Signal strength indicator</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_SNR_max">SNR Max (dB)</label>
+              <input type="number" id="SCell_SNR_max" name="SCell_SNR_max" value="16.00" step="0.01" required>
+              <div class="help-tip">Signal-to-noise ratio</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_Downlink_Num_RBs">Downlink RBs</label>
+              <input type="number" id="SCell_Downlink_Num_RBs" name="SCell_Downlink_Num_RBs" value="48868" required>
+              <div class="help-tip">Resource blocks</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_Downlink_Average_MCS">DL Avg MCS</label>
+              <input type="number" id="SCell_Downlink_Average_MCS" name="SCell_Downlink_Average_MCS" value="17" required>
+              <div class="help-tip">Modulation coding scheme</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_Downlink_bandwidth_MHz">DL Bandwidth (MHz)</label>
+              <input type="number" id="SCell_Downlink_bandwidth_MHz" name="SCell_Downlink_bandwidth_MHz" value="20" required>
+              <div class="help-tip">5, 10, 15, 20 MHz</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_Cell_Identity">Cell Identity</label>
+              <input type="number" id="SCell_Cell_Identity" name="SCell_Cell_Identity" value="2568967" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="SCell_freq_MHz">Frequency (MHz)</label>
+              <input type="number" id="SCell_freq_MHz" name="SCell_freq_MHz" value="2600" required>
+              <div class="help-tip">e.g., 700, 800, 1800, 2600</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Location and Weather Section -->
+        <div class="form-section">
+          <h3>Location & Environment</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="operator">Operator</label>
+              <select id="operator" name="operator" required>
+                <option value="1">Operator 1</option>
+                <option value="2" selected>Operator 2</option>
+                <option value="3">Operator 3</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="Latitude">Latitude</label>
+              <input type="number" id="Latitude" name="Latitude" value="52.4916" step="0.000001" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="Longitude">Longitude</label>
+              <input type="number" id="Longitude" name="Longitude" value="13.3046" step="0.000001" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="Altitude">Altitude (m)</label>
+              <input type="number" id="Altitude" name="Altitude" value="44.8" step="0.1" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="speed_kmh">Speed (km/h)</label>
+              <input type="number" id="speed_kmh" name="speed_kmh" value="0.0" step="0.1" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="COG">Course Over Ground</label>
+              <input type="number" id="COG" name="COG" value="159.0" step="0.1" required>
+              <div class="help-tip">0-360 degrees</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="area">Area Type</label>
+              <select id="area" name="area" required>
+                <option value="1">Urban</option>
+                <option value="2" selected>Suburban</option>
+                <option value="3">Rural</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="Traffic_Jam_Factor">Traffic Jam Factor</label>
+              <input type="number" id="Traffic_Jam_Factor" name="Traffic_Jam_Factor" value="3.01" step="0.01" min="0" max="10" required>
+              <div class="help-tip">0 (no traffic) to 10 (standstill)</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Weather Section -->
+        <div class="form-section">
+          <h3>Weather Conditions</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="precipIntensity">Precipitation Intensity</label>
+              <input type="number" id="precipIntensity" name="precipIntensity" value="0.0132" step="0.0001" min="0" required>
+              <div class="help-tip">0-1 scale</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="precipProbability">Precipitation Probability</label>
+              <input type="number" id="precipProbability" name="precipProbability" value="0.01" step="0.01" min="0" max="1" required>
+              <div class="help-tip">0-1 scale</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="temperature">Temperature (°C)</label>
+              <input type="number" id="temperature" name="temperature" value="22.98" step="0.01" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="apparentTemperature">Apparent Temperature (°C)</label>
+              <input type="number" id="apparentTemperature" name="apparentTemperature" value="22.98" step="0.01" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="dewPoint">Dew Point (°C)</label>
+              <input type="number" id="dewPoint" name="dewPoint" value="14.52" step="0.01" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="humidity">Humidity</label>
+              <input type="number" id="humidity" name="humidity" value="0.59" step="0.01" min="0" max="1" required>
+              <div class="help-tip">0-1 scale</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="pressure">Pressure (hPa)</label>
+              <input type="number" id="pressure" name="pressure" value="1013.5" step="0.1" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="windSpeed">Wind Speed (m/s)</label>
+              <input type="number" id="windSpeed" name="windSpeed" value="2.29" step="0.01" min="0" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="cloudCover">Cloud Cover</label>
+              <input type="number" id="cloudCover" name="cloudCover" value="0.82" step="0.01" min="0" max="1" required>
+              <div class="help-tip">0-1 scale</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="uvIndex">UV Index</label>
+              <input type="number" id="uvIndex" name="uvIndex" value="3.0" step="0.1" min="0" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="visibility">Visibility (km)</label>
+              <input type="number" id="visibility" name="visibility" value="16.093" step="0.001" min="0" required>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Timestamp - Hidden by default -->
+        <input type="hidden" id="timestamp" name="timestamp" value="1624373164">
+        
+        <div class="button-group">
+          <button type="button" id="generateCSVBtn" class="primary">
+            <i class="fa-solid fa-file-csv" style="margin-right: 8px;"></i>Generate & Download CSV
+          </button>
+          <button type="button" id="predictFromFormBtn" class="secondary">
+            <i class="fa-solid fa-satellite-dish" style="margin-right: 8px;"></i>Predict Directly
+          </button>
+        </div>
+      </form>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script>
+      // Current timestamp in seconds
+      document.getElementById('timestamp').value = Math.floor(Date.now() / 1000);
+      
+      // Generate and download CSV
+      document.getElementById('generateCSVBtn').addEventListener('click', function() {
+        const formData = getFormData();
+        const csvContent = generateCSV(formData);
+        downloadCSV(csvContent, 'network_data.csv');
+        showNotification('CSV file generated successfully!', 'success');
+      });
+      
+      // Predict directly from form
+      document.getElementById('predictFromFormBtn').addEventListener('click', function() {
+        const formData = getFormData();
+        
+        // Show loading notification
+        showNotification('<span class="loader"></span>Processing prediction...', 'info', 0);
+        
+        // Send data to prediction API
+        sendPredictionRequest(formData)
+          .then(response => {
+            // Hide loading notification
+            hideNotification();
+            
+            // Send the result back to the opener window and update its UI
+            if (window.opener && !window.opener.closed) {
+              window.opener.document.getElementById('result').innerHTML = 
+                `<span class="result-icon mr-2">✅</span>Prediction: ${response.prediction_mbps} Mbit/s`;
+              
+              // Show the explain button in the opener window
+              const explainBtn = window.opener.document.getElementById('explainBtn');
+              explainBtn.style.display = 'inline-block';
+              explainBtn.style.animation = 'pulse 1.5s ease-in-out';
+              setTimeout(() => {
+                explainBtn.style.animation = '';
+              }, 1500);
+              
+              // Save the input data for SHAP explanation
+              window.opener.lastInputData = formData;
+              console.log("🔁 Saved input for SHAP explanation:", formData);
+              
+              // Show success notification
+              showNotification('Prediction completed successfully!', 'success');
+              
+              // Close this popup after a short delay
+              setTimeout(() => {
+                window.close();
+              }, 2000);
+            } else {
+              showNotification('Cannot update main window. It may be closed.', 'error');
+            }
+          })
+          .catch(error => {
+            hideNotification();
+            showNotification('Error: ' + error.message, 'error');
+          });
+      });
+      
+      // Get all form data as an object
+      function getFormData() {
+        const form = document.getElementById('networkDataForm');
+        const formData = {};
+        
+        // Get all inputs
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+          let value = input.value;
+          
+          // Convert numerical inputs to numbers
+          if (input.type === 'number' || input.id === 'operator' || input.id === 'area') {
+            value = parseFloat(value);
+          }
+          
+          formData[input.name] = value;
+        });
+        
+        return formData;
+      }
+      
+      // Generate CSV content from form data
+      function generateCSV(data) {
+        // Define all headers in the correct order
+        const headers = [
+          'timestamp', 'PCell_RSRP_max', 'PCell_RSRQ_max', 'PCell_RSSI_max', 'PCell_SNR_max',
+          'PCell_Downlink_Num_RBs', 'PCell_Downlink_Average_MCS', 'PCell_Downlink_bandwidth_MHz',
+          'PCell_Cell_Identity', 'PCell_freq_MHz', 'SCell_RSRP_max', 'SCell_RSRQ_max',
+          'SCell_RSSI_max', 'SCell_SNR_max', 'SCell_Downlink_Num_RBs', 'SCell_Downlink_Average_MCS',
+          'SCell_Downlink_bandwidth_MHz', 'SCell_Cell_Identity', 'SCell_freq_MHz', 'operator',
+          'Latitude', 'Longitude', 'Altitude', 'speed_kmh', 'COG', 'precipIntensity',
+          'precipProbability', 'temperature', 'apparentTemperature', 'dewPoint', 'humidity',
+          'pressure', 'windSpeed', 'cloudCover', 'uvIndex', 'visibility', 'Traffic_Jam_Factor', 'area'
+        ];
+        
+        // Create header row
+        let csvContent = headers.join(',') + '\n';
+        
+        // Create data row
+        const dataValues = headers.map(header => data[header]);
+        csvContent += dataValues.join(',');
+        
+        return csvContent;
+      }
+      
+      // Download CSV file
+      function downloadCSV(content, filename) {
+        const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        
+        // Create download link
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        
+        // Append to body, click and remove
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      
+      // Send prediction request to API
+      async function sendPredictionRequest(data) {
+        try {
+          const response = await fetch("/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Server error: ${response.statusText}`);
+          }
+          
+          return await response.json();
+        } catch (error) {
+          console.error("Error:", error);
+          throw error;
+        }
+      }
+      
+      // Show notification
+      function showNotification(message, type, duration = 3000) {
+        const notification = document.getElementById('notification');
+        notification.innerHTML = message;
+        notification.className = 'notification';
+        
+        // Add type class
+        notification.classList.add(type);
+        notification.classList.add('show');
+        
+        // Auto-hide after duration (if not 0)
+        if (duration > 0) {
+          setTimeout(hideNotification, duration);
+        }
+      }
+      
+      // Hide notification
+      function hideNotification() {
+        const notification = document.getElementById('notification');
+        notification.classList.remove('show');
+      }
+    </script>
+  </body>
+  </html>

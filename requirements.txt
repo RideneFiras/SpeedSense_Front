@@ -8,3 +8,4 @@ pandas
 shap
 openai
 dotenv
+google-generativeai==0.3.2
